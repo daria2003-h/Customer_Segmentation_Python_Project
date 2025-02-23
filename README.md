@@ -1,4 +1,6 @@
 # Customer Segmentation Project
+![](https://github.com/daria2003-h/Customer_Segmentation_Python_Project/blob/main/Customer_clustering.png)
+
 This customer segmentation project uses KMeans clustering to group customers based on their purchasing behaviors. By analyzing patterns in the data, the model identifies distinct customer segments, helping businesses tailor their marketing strategies and offerings. Segmentation enables more personalized engagement, optimized resource allocation, and improved customer retention. The insights derived from this analysis can lead to better-targeted campaigns, increased customer satisfaction, and overall business growth.
 ## Project Start
 ```python
