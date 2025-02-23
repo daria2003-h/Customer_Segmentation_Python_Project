@@ -113,6 +113,46 @@ df_1
 
 ## Data Cleaning
 
+```python
+cleaned_df = df.copy()
+cleaned_df.columns
+
+#Cleaning Invoice column
+cleaned_df['Invoice'] = cleaned_df['Invoice'].astype('str')
+mask = (
+    cleaned_df['Invoice'].str.match('^\\d{6}$') == True
+)
+cleaned_df = cleaned_df[mask]
+cleaned_df.head()
+
+# Cleaning StockCode column
+cleaned_df['StockCode'] = cleaned_df['StockCode'].astype('str')
+
+mask_1 = (
+    (cleaned_df['StockCode'].str.match('^\\d{5}$')== True)
+    |(cleaned_df['StockCode'].str.match('^\\d{5}[a-zA-Z]+$')== True)
+    |(cleaned_df['StockCode'].str.match('^PADS$')== True)
+)
+
+cleaned_df = cleaned_df[mask_1]
+cleaned_df
+
+# dropping records with missing Customer ID
+cleaned_df.dropna(subset = ['Customer ID'], inplace = True)
+cleaned_df.describe() # checking statistics for a data set 
+
+len(cleaned_df [cleaned_df['Price'] == 0])
+cleaned_df= cleaned_df[cleaned_df['Price']>0]
+
+len(cleaned_df)/len(df) # 23% of the data is lost due to cleaning
+```
+
+
+
+
+
+
+
 ## Feature Engineering
 
 ## KMeans Clustering
