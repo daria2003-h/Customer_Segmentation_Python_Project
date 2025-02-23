@@ -42,7 +42,8 @@ df[df['Invoice'].str.match('^\\d{6}$')== False] # what data does not match this 
 
 # is C the only character that appears?
 df['Invoice'].str.replace('[0-9]', '', regex = True).unique() # output : array(['', 'C', 'A'], dtype=object)
-# only 3 records in our data set column Invoice start with 'A', which are 'Adjust bad debt' and should be excluded later 
+# only 3 records in our data set column Invoice start with 'A', which are 'Adjust bad debt' and should
+be excluded later 
 df[df['Invoice'].str.startswith('A')]
 
 #exploring StockCode
