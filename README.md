@@ -115,7 +115,11 @@ df_1
 
 
 ## Data Cleaning
+In this step, I cleaned and prepared customer transaction data for analysis. First, I created a new feature, **SalesLineTotal**, by multiplying `Quantity` and `Price`. Then, I aggregated the data by **Customer ID**, calculating total spending (**Monetary Value**), number of purchases (**Frequency**), and the time since the last purchase (**Recency**).  
 
+Next, I visualized these features using **histograms** and **boxplots**, which revealed the presence of outliers. I identified and removed these outliers using the **Interquartile Range (IQR) method**, creating a cleaned dataset. After replotting boxplots to confirm better distributions, I visualized customer data with a **3D scatter plot**.
+
+Finally, I **standardized** the data using **StandardScaler** to ensure consistency in further analysis and plotted another 3D scatter plot of the scaled features. Now, the dataset is well-structured and ready for customer segmentation🚀
 ```python
 cleaned_df = df.copy()
 cleaned_df.columns
