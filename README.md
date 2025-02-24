@@ -158,4 +158,171 @@ len(cleaned_df)/len(df) # 23% of the data is lost due to cleaning
 
 ## Feature Engineering
 
+```python
+cleaned_df['SalesLineTotal'] = cleaned_df['Quantity']*cleaned_df['Price']
+cleaned_df
+
+aggregated_df = cleaned_df.groupby( by = 'Customer ID', as_index=False) \
+.agg(
+    MonetaryValue = ('SalesLineTotal', 'sum'),
+    Frequency = ('Invoice', 'nunique'),
+    LastInvoiceDate = ('InvoiceDate', 'max')
+)
+aggregated_df.head()
+```
+
+```python
+max_invoice_date = aggregated_df['LastInvoiceDate'].max()
+max_invoice_date
+
+aggregated_df['Recency'] = (max_invoice_date- aggregated_df['LastInvoiceDate']).dt.days
+aggregated_df
+```
+```python
+# visualizing new features
+plt.figure(figsize =(15, 5))
+
+plt.subplot(1, 3, 1)
+plt.hist(aggregated_df['MonetaryValue'], bins = 10, color = 'skyblue', edgecolor = 'black')
+plt.title('Monetary Distribution')
+plt.xlabel('Monetary Value')
+plt.ylabel('Count')
+
+plt.subplot(1, 3, 2)
+plt.hist(aggregated_df['Frequency'], bins = 10, color = 'lightgreen', edgecolor = 'black')
+plt.title('Frequency Distribution')
+plt.xlabel('Frequency')
+plt.ylabel('Count')
+
+plt.subplot(1, 3, 3)
+plt.hist(aggregated_df['Recency'], bins = 10, color = 'salmon', edgecolor = 'black')
+plt.title('Recency Distribution')
+plt.xlabel('Recency')
+plt.ylabel('Count')
+
+plt.tight_layout()
+plt.show()
+```
+
+```
+# making boxplots
+plt.figure(figsize =(15, 5))
+
+plt.subplot(1, 3, 1)
+sns.boxplot(data = aggregated_df['MonetaryValue'],  color = 'skyblue')
+plt.title('Monetary Distribution')
+plt.xlabel('Monetary Value')
+plt.ylabel('Count')
+
+plt.subplot(1, 3, 2)
+sns.boxplot(aggregated_df['Frequency'],  color = 'lightgreen')
+plt.title('Frequency Distribution')
+plt.xlabel('Frequency')
+plt.ylabel('Count')
+
+plt.subplot(1, 3, 3)
+sns.boxplot(aggregated_df['Recency'], color = 'salmon')
+plt.title('Recency Distribution')
+plt.xlabel('Recency')
+plt.ylabel('Count')
+
+plt.tight_layout()
+plt.show()
+
+#  as we can see we have to deal with outliers
+# we have to separate outliers for extra analysis
+```
+```python
+M_Q1 = aggregated_df['MonetaryValue'].quantile(0.25)
+M_Q3 = aggregated_df['MonetaryValue'].quantile(0.75)
+M_IQR = M_Q3-M_Q1 # interquartal range
+
+monetary_outliers_df = aggregated_df[
+(aggregated_df['MonetaryValue'] > (M_Q3+1.5*M_IQR))
+| (aggregated_df['MonetaryValue']< (M_Q1-1.5*M_IQR))].copy()
+
+monetary_outliers_df.describe() # high spenders
+
+F_Q1 = aggregated_df['Frequency'].quantile(0.25)
+F_Q3 = aggregated_df['Frequency'].quantile(0.75)
+F_IQR = F_Q3-F_Q1 # interquartal range
+
+frequency_outliers_df = aggregated_df[
+(aggregated_df['Frequency'] > (F_Q3+1.5*F_IQR))
+| (aggregated_df['Frequency']< (F_Q1-1.5*F_IQR))].copy()
+
+frequency_outliers_df.describe() # highly frequent spenders 
+
+non_outliers_df = aggregated_df[(~aggregated_df.index.isin(monetary_outliers_df.index)) 
+&(~aggregated_df.index.isin(frequency_outliers_df.index))]
+
+non_outliers_df.describe()
+```
+
+```python
+# reploting boxplots to see if we have solved the priblem with outliers
+plt.figure(figsize =(15, 5))
+
+plt.subplot(1, 3, 1)
+sns.boxplot(data = non_outliers_df['MonetaryValue'],  color = 'skyblue')
+plt.title('Monetary Distribution')
+plt.xlabel('Monetary Value')
+plt.ylabel('Count')
+
+plt.subplot(1, 3, 2)
+sns.boxplot(non_outliers_df['Frequency'],  color = 'lightgreen')
+plt.title('Frequency Distribution')
+plt.xlabel('Frequency')
+plt.ylabel('Count')
+
+plt.subplot(1, 3, 3)
+sns.boxplot(non_outliers_df['Recency'], color = 'salmon')
+plt.title('Recency Distribution')
+plt.xlabel('Recency')
+plt.ylabel('Count')
+
+plt.tight_layout()
+plt.show()  # it looks way better now
+ ```
+
+```python
+fig = plt.figure(figsize = (8,8))
+ax = fig.add_subplot(projection = '3d')
+scatter = ax.scatter( non_outliers_df['MonetaryValue'], 
+                     non_outliers_df['Frequency'], 
+                     non_outliers_df['Recency'])
+
+ax.set_xlabel('Monetary Value')
+ax.set_ylabel('Frequency')
+ax.set_zlabel('Recency')
+
+ax.set_title('3D Scatter Plot of Customer Data')
+
+plt.tight_layout()
+plt.show()
+```
+
+scaler = StandardScaler()
+scaled_data = scaler.fit_transform(non_outliers_df[['MonetaryValue', 'Frequency', 'Recency']])
+scaled_data
+scaled_data_df = pd.DataFrame(scaled_data, index = non_outliers_df.index, 
+                              columns = ('MonetaryValue', 'Frequency','Recency'))
+scaled_data_df
+
+```python
+fig = plt.figure(figsize = (8,8))
+ax = fig.add_subplot(projection = '3d')
+scatter = ax.scatter( scaled_data_df['MonetaryValue'], 
+                     scaled_data_df['Frequency'], 
+                     scaled_data_df['Recency'])
+
+ax.set_xlabel('Monetary Value')
+ax.set_ylabel('Frequency')
+ax.set_zlabel('Recency')
+
+ax.set_title('3D Scatter Plot of Customer Data')
+
+plt.tight_layout()
+plt.show()
+```
 ## KMeans Clustering
