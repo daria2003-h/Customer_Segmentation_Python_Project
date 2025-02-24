@@ -203,6 +203,7 @@ plt.ylabel('Count')
 plt.tight_layout()
 plt.show()
 ```
+![](https://github.com/daria2003-h/Customer_Segmentation_Python_Project/blob/main/images/feature%20vis.png)
 
 ```
 # making boxplots
@@ -232,6 +233,8 @@ plt.show()
 #  as we can see we have to deal with outliers
 # we have to separate outliers for extra analysis
 ```
+![](https://github.com/daria2003-h/Customer_Segmentation_Python_Project/blob/main/images/outliers.png)
+
 ```python
 M_Q1 = aggregated_df['MonetaryValue'].quantile(0.25)
 M_Q3 = aggregated_df['MonetaryValue'].quantile(0.75)
@@ -284,6 +287,7 @@ plt.ylabel('Count')
 plt.tight_layout()
 plt.show()  # it looks way better now
  ```
+![](https://github.com/daria2003-h/Customer_Segmentation_Python_Project/blob/main/images/o1.png)
 
 ```python
 fig = plt.figure(figsize = (8,8))
@@ -301,14 +305,16 @@ ax.set_title('3D Scatter Plot of Customer Data')
 plt.tight_layout()
 plt.show()
 ```
+![](https://github.com/daria2003-h/Customer_Segmentation_Python_Project/blob/main/images/3d1.png)
 
+```python
 scaler = StandardScaler()
 scaled_data = scaler.fit_transform(non_outliers_df[['MonetaryValue', 'Frequency', 'Recency']])
 scaled_data
 scaled_data_df = pd.DataFrame(scaled_data, index = non_outliers_df.index, 
                               columns = ('MonetaryValue', 'Frequency','Recency'))
 scaled_data_df
-
+```
 ```python
 fig = plt.figure(figsize = (8,8))
 ax = fig.add_subplot(projection = '3d')
@@ -325,4 +331,5 @@ ax.set_title('3D Scatter Plot of Customer Data')
 plt.tight_layout()
 plt.show()
 ```
+![](https://github.com/daria2003-h/Customer_Segmentation_Python_Project/blob/main/images/3d2.png)
 ## KMeans Clustering
