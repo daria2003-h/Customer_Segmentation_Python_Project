@@ -381,6 +381,7 @@ plt.grid(True)
 plt.tight_layout()
 plt.show()
 ```
+![](https://github.com/daria2003-h/Customer_Segmentation_Python_Project/blob/main/images/inertia_silhouette_score.png)
 
 ```python
 kmeans = KMeans( n_clusters=4, random_state =42, max_iter = 1000)
@@ -416,7 +417,7 @@ ax.set_zlabel('Recency')
 ax.set_title('3D Scatter Plot of Customer Data by Cluster')
 plt.show()
 ```
-
+![](https://github.com/daria2003-h/Customer_Segmentation_Python_Project/blob/main/images/3d_final.png)
 ```python
 # Creating Violin Plots
 
@@ -443,6 +444,7 @@ plt.ylabel('Recency')
 plt.tight_layout()
 plt.show()
 ```
+![](https://github.com/daria2003-h/Customer_Segmentation_Python_Project/blob/main/images/violion.png)
 
 ### interpreting what the clusters represent and giving them meaningfull names
 
@@ -513,6 +515,8 @@ plt.ylabel('Recency')
 plt.tight_layout()
 plt.show()
 ```
+![](https://github.com/daria2003-h/Customer_Segmentation_Python_Project/blob/main/images/violin_outliers.png)
+
 ### Interpretation
 1. Cluster -1 ( Monetary Outliers) PAMPER:
 Characteristics : High spenders but not neccesserilyl frequent buyers. Their purchases are large but infrequent. 
@@ -567,7 +571,7 @@ ax2.set_ylabel('Average Value', color='g')
 
 plt.show()
 ```
-
+![](https://github.com/daria2003-h/Customer_Segmentation_Python_Project/blob/main/images/final.png)
 ```python
 # making scaling of line plot better to read
 
@@ -594,6 +598,6 @@ ax2.set_ylabel('Average Value', color='g')
 
 plt.show()
 ```
-
+![](https://github.com/daria2003-h/Customer_Segmentation_Python_Project/blob/main/images/final2.png)
 
 
